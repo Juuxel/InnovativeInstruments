@@ -21,7 +21,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "juuxel.innovativeinstruments.InnovativeInstruments"
+        "value": "juuxel.innovativeinstruments.InnovativeInstruments::init"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "juuxel.innovativeinstruments.InnovativeInstruments::initClient"
       }
     ]
   },

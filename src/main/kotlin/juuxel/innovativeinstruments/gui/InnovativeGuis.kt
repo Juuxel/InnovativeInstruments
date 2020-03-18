@@ -1,6 +1,7 @@
 package juuxel.innovativeinstruments.gui
 
 import juuxel.innovativeinstruments.InnovativeInstruments
+import juuxel.innovativeinstruments.gui.screen.IndustrialComposterScreen
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry
@@ -20,7 +21,7 @@ object InnovativeGuis {
 
     @Environment(EnvType.CLIENT)
     fun initClient() {
-        registerScreen<Container>(INDUSTRIAL_COMPOSTER) { _, _ -> TODO() }
+        registerScreen(INDUSTRIAL_COMPOSTER, ::IndustrialComposterScreen)
     }
 
     private fun registerMenu(

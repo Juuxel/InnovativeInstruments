@@ -3,6 +3,8 @@ package juuxel.innovativeinstruments
 import juuxel.innovativeinstruments.block.InnovativeBlocks
 import juuxel.innovativeinstruments.block.entity.InnovativeBlockEntities
 import juuxel.innovativeinstruments.gui.InnovativeGuis
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.util.Identifier
 
 object InnovativeInstruments {
@@ -16,6 +18,7 @@ object InnovativeInstruments {
         InnovativeGuis.init()
     }
 
+    @Environment(EnvType.CLIENT)
     fun initClient() {
         InnovativeGuis.initClient()
     }
