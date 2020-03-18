@@ -10,10 +10,10 @@ import net.minecraft.util.registry.Registry
 import team.reborn.energy.Energy
 
 object InnovativeBlockEntities {
-    val INDUSTRIAL_COMPOST: BlockEntityType<IndustrialCompostBlockEntity> = register(
-        "industrial_compost",
-        ::IndustrialCompostBlockEntity,
-        InnovativeBlocks.INDUSTRIAL_COMPOST
+    val INDUSTRIAL_COMPOSTER: BlockEntityType<IndustrialComposterBlockEntity> = register(
+        "industrial_composter",
+        ::IndustrialComposterBlockEntity,
+        InnovativeBlocks.INDUSTRIAL_COMPOSTER
     )
 
     fun init() {

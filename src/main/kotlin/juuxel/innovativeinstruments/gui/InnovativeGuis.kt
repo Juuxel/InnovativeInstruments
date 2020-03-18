@@ -12,15 +12,15 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 
 object InnovativeGuis {
-    val INDUSTRIAL_COMPOST: Identifier = InnovativeInstruments.id("industrial_compost")
+    val INDUSTRIAL_COMPOSTER: Identifier = InnovativeInstruments.id("industrial_composter")
 
     fun init() {
-        registerMenu(INDUSTRIAL_COMPOST)
+        registerMenu(INDUSTRIAL_COMPOSTER)
     }
 
     @Environment(EnvType.CLIENT)
     fun initClient() {
-        registerScreen<Container>(INDUSTRIAL_COMPOST) { _, _ -> TODO() }
+        registerScreen<Container>(INDUSTRIAL_COMPOSTER) { _, _ -> TODO() }
     }
 
     private fun registerMenu(

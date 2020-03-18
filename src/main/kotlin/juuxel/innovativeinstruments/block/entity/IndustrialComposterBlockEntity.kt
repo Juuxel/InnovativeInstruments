@@ -6,7 +6,7 @@ import net.minecraft.container.Container
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.CompoundTag
 
-class IndustrialCompostBlockEntity : MachineBlockEntity(InnovativeBlockEntities.INDUSTRIAL_COMPOST) {
+class IndustrialComposterBlockEntity : MachineBlockEntity(InnovativeBlockEntities.INDUSTRIAL_COMPOSTER) {
     override val energy = EnergyComponent(MAX_ENERGY)
     private var stage: Stage = Stage.IDLE
     private var inputProgress: Int = 0

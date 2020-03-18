@@ -5,9 +5,9 @@ import net.minecraft.block.Block
 import net.minecraft.util.registry.Registry
 
 object InnovativeBlocks {
-    val INDUSTRIAL_COMPOST: Block = register(
-        "industrial_compost",
-        IndustrialCompostBlock(createMachineSettings())
+    val INDUSTRIAL_COMPOSTER: Block = register(
+        "industrial_composter",
+        IndustrialComposterBlock(createMachineSettings())
     )
 
     fun init() {
