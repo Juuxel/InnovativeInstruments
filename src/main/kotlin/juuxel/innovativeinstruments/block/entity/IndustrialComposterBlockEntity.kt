@@ -4,15 +4,19 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
 import juuxel.innovativeinstruments.component.EnergyComponent
 import juuxel.innovativeinstruments.gui.menu.IndustrialComposterMenu
 import juuxel.innovativeinstruments.lib.NbtKeys
+import net.minecraft.block.ComposterBlock
 import net.minecraft.container.BlockContext
 import net.minecraft.container.PropertyDelegate
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.inventory.SidedInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.util.math.Direction
 import kotlin.math.roundToInt
 
 class IndustrialComposterBlockEntity : MachineBlockEntity(
     InnovativeBlockEntities.INDUSTRIAL_COMPOSTER
-), PropertyDelegateHolder {
+), PropertyDelegateHolder, SidedInventory {
     override val energy = EnergyComponent(MAX_ENERGY)
     private var stage: Stage = Stage.IDLE
     private var inputProgress: Int = 0
@@ -71,6 +75,17 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
         putInt(NbtKeys.BIOMASS, biomass)
     }
 
+    override fun getInvAvailableSlots(side: Direction): IntArray =
+        if (side == Direction.DOWN) OUTPUT_SLOT else INPUT_SLOT
+
+    override fun canExtractInvStack(slot: Int, stack: ItemStack, side: Direction) = true
+
+    override fun canInsertInvStack(slot: Int, stack: ItemStack, side: Direction?) = isValidInvStack(slot, stack)
+
+    // More like isValidInputStack or similar
+    override fun isValidInvStack(slot: Int, stack: ItemStack) =
+        slot == 0 && stack.item in ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE
+
     private enum class Stage {
         IDLE,
         PROCESSING_INPUT,
@@ -81,5 +96,8 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
         private const val MAX_BIOMASS: Int = 4
         private const val MAX_INPUT_PROGRESS: Int = 100
         private const val MAX_ENERGY: Double = 10_000.0
+
+        private val INPUT_SLOT = intArrayOf(0)
+        private val OUTPUT_SLOT = intArrayOf(1)
     }
 }
