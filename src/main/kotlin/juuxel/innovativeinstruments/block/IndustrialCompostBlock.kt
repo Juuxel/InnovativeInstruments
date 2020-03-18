@@ -1,12 +1,15 @@
 package juuxel.innovativeinstruments.block
 
 import juuxel.innovativeinstruments.block.entity.IndustrialCompostBlockEntity
+import juuxel.innovativeinstruments.gui.InnovativeGuis
+import juuxel.innovativeinstruments.gui.openFabricContainer
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.DirectionProperty
@@ -19,13 +22,20 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 class IndustrialCompostBlock(settings: Settings) : BlockWithEntity(settings) {
+    init {
+        defaultState = defaultState.with(WORKING, false)
+    }
+
     // TODO: Sounds?
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return defaultState.with(FACING, ctx.playerFacing.opposite)
+    }
 
     override fun onUse(
         state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult
     ): ActionResult {
-
-
+        player.openFabricContainer(InnovativeGuis.INDUSTRIAL_COMPOST, pos)
         return ActionResult.SUCCESS
     }
 

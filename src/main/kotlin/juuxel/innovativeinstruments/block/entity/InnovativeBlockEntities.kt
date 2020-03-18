@@ -7,6 +7,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.util.registry.Registry
+import team.reborn.energy.Energy
 
 object InnovativeBlockEntities {
     val INDUSTRIAL_COMPOST: BlockEntityType<IndustrialCompostBlockEntity> = register(
@@ -16,7 +17,8 @@ object InnovativeBlockEntities {
     )
 
     fun init() {
-
+        // Set up energy
+        Energy.registerHolder({ it is MachineBlockEntity }, { (it as MachineBlockEntity).energy })
     }
 
     private fun <T : BlockEntity> register(name: String, supplier: () -> T, vararg blocks: Block): BlockEntityType<T> =
