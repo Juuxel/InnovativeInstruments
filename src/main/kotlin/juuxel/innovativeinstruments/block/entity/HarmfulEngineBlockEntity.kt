@@ -59,12 +59,20 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
                 selfEnergy.insert(1.0 - inserted)
             }
 
+            if (progress == 0) {
+                world!!.setBlockState(pos, cachedState.with(HarmfulEngineBlock.WORKING, false))
+            }
+
             markDirty()
-        } else {
+        }
+
+        if (progress == 0) {
             val stack = getInvStack(0)
             if (!stack.isEmpty) {
                 stack.decrement(1)
                 progress = MAX_PROGRESS
+                world!!.setBlockState(pos, cachedState.with(HarmfulEngineBlock.WORKING, true))
+                markDirty()
             }
         }
     }
