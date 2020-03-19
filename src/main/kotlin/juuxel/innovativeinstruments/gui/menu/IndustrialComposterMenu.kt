@@ -6,7 +6,6 @@ import juuxel.innovativeinstruments.InnovativeInstruments.id
 import net.minecraft.container.BlockContext
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
 class IndustrialComposterMenu(
     syncId: Int, playerInventory: PlayerInventory, title: Text, ctx: BlockContext
@@ -32,8 +31,8 @@ class IndustrialComposterMenu(
     }
 
     companion object {
-        private val PROGRESS_OVERLAY = id("textures/gui/slot_progress_overlay.png")
-        private val EMPTY_PROGRESS_OVERLAY = id("textures/gui/empty_slot_progress_overlay.png")
+        private val PROGRESS_OVERLAY = id("textures/gui/industrial_composter/output_progress_overlay_full.png")
+        private val EMPTY_PROGRESS_OVERLAY = id("textures/gui/industrial_composter/output_progress_overlay_empty.png")
         private val PROGRESS_ARROW_BACKGROUND = id("textures/gui/industrial_composter/progress_arrow_background.png")
         private val PROGRESS_ARROW_FOREGROUND = id("textures/gui/industrial_composter/progress_arrow_foreground.png")
         private val ENERGY_BAR_EMPTY = id("textures/gui/energy_bar_empty.png")
