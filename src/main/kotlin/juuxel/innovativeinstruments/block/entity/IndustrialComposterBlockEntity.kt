@@ -1,6 +1,7 @@
 package juuxel.innovativeinstruments.block.entity
 
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
+import juuxel.innovativeinstruments.block.IndustrialComposterBlock
 import juuxel.innovativeinstruments.component.EnergyComponent
 import juuxel.innovativeinstruments.gui.menu.IndustrialComposterMenu
 import juuxel.innovativeinstruments.lib.NbtKeys
@@ -10,13 +11,15 @@ import net.minecraft.container.PropertyDelegate
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.util.Tickable
 import net.minecraft.util.math.Direction
 import kotlin.math.roundToInt
 
 class IndustrialComposterBlockEntity : MachineBlockEntity(
     InnovativeBlockEntities.INDUSTRIAL_COMPOSTER
-), PropertyDelegateHolder, SidedInventory {
+), PropertyDelegateHolder, SidedInventory, Tickable {
     override val energy = EnergyComponent(MAX_ENERGY)
     private var stage: Stage = Stage.IDLE
     private var progress: Int = 0
@@ -37,7 +40,7 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
             2 -> MAX_PROGRESS
             3 -> biomass
             4 -> MAX_ENERGY.toInt()
-            5 -> MAX_BIOMASS
+            5 -> MAX_BIOMASS_FOR_GUI
             else -> throw IllegalArgumentException("Unknown property key: $index")
         }
 
@@ -50,6 +53,74 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
         }
 
         override fun size() = 4
+    }
+
+    override fun tick() {
+        if (world!!.isClient) return
+
+        val input = getInvStack(0)
+        val hasInput = !input.isEmpty
+
+        if (energy <= 0.0) {
+            if (progress != 0) {
+                stopProcessing()
+            }
+            return
+        }
+
+        if (progress == 0) {
+            if (hasInput) {
+                startProcessing()
+            }
+        } else if (progress == MAX_PROGRESS && hasInput) {
+            val chance = ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.getFloat(input.item)
+            input.decrement(1)
+            if (world!!.random.nextFloat() < chance) {
+                onBiomassSuccess()
+            } else {
+                onBiomassFailed()
+            }
+
+            stopProcessing()
+        } else {
+            if (!hasInput) {
+                stopProcessing()
+            } else {
+                progress++
+                energy -= 2.0
+            }
+        }
+
+        if (biomass == MAX_BIOMASS) {
+            val output = getInvStack(1)
+            if (output.count == output.maxCount) return
+
+            if (output.isEmpty) {
+                setInvStack(1, ItemStack(Items.BONE_MEAL))
+            } else {
+                output.increment(1)
+            }
+
+            biomass = 0
+        }
+    }
+
+    private fun startProcessing() {
+        progress = 1
+        world!!.setBlockState(pos, cachedState.with(IndustrialComposterBlock.WORKING, true))
+    }
+
+    private fun stopProcessing() {
+        progress = 0
+        world!!.setBlockState(pos, cachedState.with(IndustrialComposterBlock.WORKING, false))
+    }
+
+    private fun onBiomassSuccess() {
+        biomass++
+    }
+
+    private fun onBiomassFailed() {
+        world!!.playLevelEvent(null, 1009, pos, 0)
     }
 
     override fun getPropertyDelegate() = properties
@@ -90,7 +161,8 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
 
     companion object {
         private const val MAX_BIOMASS: Int = 4
-        private const val MAX_PROGRESS: Int = 100
+        private const val MAX_BIOMASS_FOR_GUI: Int = MAX_BIOMASS - 1
+        private const val MAX_PROGRESS: Int = 120
         private const val MAX_ENERGY: Double = 10_000.0
 
         private val INPUT_SLOT = intArrayOf(0)

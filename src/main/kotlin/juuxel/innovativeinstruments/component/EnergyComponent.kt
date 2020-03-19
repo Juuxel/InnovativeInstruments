@@ -32,6 +32,16 @@ data class EnergyComponent(
 
     override fun getTier() = tier
 
+    operator fun plusAssign(amount: Double) {
+        energy += amount
+    }
+
+    operator fun minusAssign(amount: Double) {
+        energy -= amount
+    }
+
+    operator fun compareTo(amount: Double): Int = energy.compareTo(amount)
+
     /**
      * Loads this component from the data at the [key] in the [tag].
      */
