@@ -19,14 +19,13 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
 ), PropertyDelegateHolder, SidedInventory {
     override val energy = EnergyComponent(MAX_ENERGY)
     private var stage: Stage = Stage.IDLE
-    private var inputProgress: Int = 0
-    private var outputProgress: Int = 0
+    private var progress: Int = 0
     private var biomass: Int = 0
 
     /*
         0 = energy
-        1 = input progress
-        2 = max input progress
+        1 = progress
+        2 = max progress
         3 = biomass level
         4 = max energy
         5 = max biomass
@@ -34,8 +33,8 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
     private val properties: PropertyDelegate = object : PropertyDelegate {
         override fun get(index: Int): Int = when (index) {
             0 -> energy.energy.roundToInt()
-            1 -> inputProgress
-            2 -> MAX_INPUT_PROGRESS
+            1 -> progress
+            2 -> MAX_PROGRESS
             3 -> biomass
             4 -> MAX_ENERGY.toInt()
             5 -> MAX_BIOMASS
@@ -44,7 +43,7 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
 
         override fun set(index: Int, value: Int): Unit = when (index) {
             0 -> { energy.energy = value.toDouble() }
-            1 -> { inputProgress = value }
+            1 -> { progress = value }
             3 -> { biomass = value }
             2, 4, 5 -> {} // Max values
             else -> throw IllegalArgumentException("Unknown property key: $index")
@@ -63,15 +62,13 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
     override fun fromTag(tag: CompoundTag) {
         super.fromTag(tag)
         stage = Stage.values()[tag.getByte(NbtKeys.STAGE).toInt()]
-        inputProgress = tag.getInt(NbtKeys.INPUT_PROGRESS)
-        outputProgress = tag.getInt(NbtKeys.OUTPUT_PROGRESS)
+        progress = tag.getInt(NbtKeys.PROGRESS)
         biomass = tag.getInt(NbtKeys.BIOMASS)
     }
 
     override fun toTag(tag: CompoundTag) = super.toTag(tag).apply {
         putByte(NbtKeys.STAGE, stage.ordinal.toByte())
-        putInt(NbtKeys.INPUT_PROGRESS, inputProgress)
-        putInt(NbtKeys.OUTPUT_PROGRESS, outputProgress)
+        putInt(NbtKeys.PROGRESS, progress)
         putInt(NbtKeys.BIOMASS, biomass)
     }
 
@@ -88,13 +85,12 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
 
     private enum class Stage {
         IDLE,
-        PROCESSING_INPUT,
-        PROCESSING_OUTPUT
+        PROCESSING,
     }
 
     companion object {
         private const val MAX_BIOMASS: Int = 4
-        private const val MAX_INPUT_PROGRESS: Int = 100
+        private const val MAX_PROGRESS: Int = 100
         private const val MAX_ENERGY: Double = 10_000.0
 
         private val INPUT_SLOT = intArrayOf(0)

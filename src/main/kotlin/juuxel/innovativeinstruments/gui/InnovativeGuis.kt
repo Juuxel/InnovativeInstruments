@@ -24,6 +24,11 @@ object InnovativeGuis {
         registerScreen(INDUSTRIAL_COMPOSTER, ::IndustrialComposterScreen)
     }
 
+    /**
+     * Registers a menu with the [id].
+     *
+     * Uses the block state's menu factory to construct the menu.
+     */
     private fun registerMenu(
         id: Identifier
     ) = ContainerProviderRegistry.INSTANCE.registerFactory(id) { syncId, _, player, buf ->
@@ -33,6 +38,13 @@ object InnovativeGuis {
         provider?.createMenu(syncId, player.inventory, player)
     }
 
+    /**
+     * Registers a menu screen with the [id].
+     *
+     * Uses the block state's menu factory to construct the menu,
+     * and the [screenFn] to construct the screen.
+     */
+    @Environment(EnvType.CLIENT)
     private inline fun <reified C : Container> registerScreen(
         id: Identifier,
         crossinline screenFn: (C, PlayerEntity) -> ContainerScreen<in C>
@@ -46,6 +58,12 @@ object InnovativeGuis {
     }
 }
 
+/**
+ * Opens a block menu using Fabric's [ContainerProviderRegistry].
+ *
+ * @param id the id of the menu
+ * @param pos the position of the opened block
+ */
 fun PlayerEntity.openFabricContainer(id: Identifier, pos: BlockPos) {
     if (!world.isClient) {
         ContainerProviderRegistry.INSTANCE.openContainer(id, this) { it.writeBlockPos(pos) }

@@ -1,9 +1,11 @@
 package juuxel.innovativeinstruments.lib
 
+/**
+ * Contains NBT serialization keys for consistency between BEs.
+ */
 object NbtKeys {
     const val ENERGY = "Energy"
     const val STAGE = "Stage"
-    const val INPUT_PROGRESS = "InputProgress"
-    const val OUTPUT_PROGRESS = "OutputProgress"
+    const val PROGRESS = "Progress"
     const val BIOMASS = "Biomass"
 }
