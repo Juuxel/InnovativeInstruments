@@ -9,7 +9,7 @@ import net.minecraft.text.Text
 
 class IndustrialComposterMenu(
     syncId: Int, playerInventory: PlayerInventory, title: Text, ctx: BlockContext
-) : CottonCraftingController(null, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx)) {
+) : CottonCraftingController(null, syncId, playerInventory, getBlockInventory(ctx, 2), getBlockProperties(ctx, 6)) {
     init {
         val root = WPlainPanel()
         val u = 9

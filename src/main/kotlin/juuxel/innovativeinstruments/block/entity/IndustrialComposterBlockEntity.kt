@@ -4,9 +4,9 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
 import juuxel.innovativeinstruments.block.IndustrialComposterBlock
 import juuxel.innovativeinstruments.component.EnergyComponent
 import juuxel.innovativeinstruments.gui.menu.IndustrialComposterMenu
+import juuxel.innovativeinstruments.gui.menu.blockContextOf
 import juuxel.innovativeinstruments.lib.NbtKeys
 import net.minecraft.block.ComposterBlock
-import net.minecraft.container.BlockContext
 import net.minecraft.container.PropertyDelegate
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.SidedInventory
@@ -52,7 +52,7 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
             else -> throw IllegalArgumentException("Unknown property key: $index")
         }
 
-        override fun size() = 4
+        override fun size() = 6
     }
 
     override fun tick() {
@@ -76,9 +76,7 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
             val chance = ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.getFloat(input.item)
             input.decrement(1)
             if (world!!.random.nextFloat() < chance) {
-                onBiomassSuccess()
-            } else {
-                onBiomassFailed()
+                biomass++
             }
 
             stopProcessing()
@@ -115,18 +113,10 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
         world!!.setBlockState(pos, cachedState.with(IndustrialComposterBlock.WORKING, false))
     }
 
-    private fun onBiomassSuccess() {
-        biomass++
-    }
-
-    private fun onBiomassFailed() {
-        world!!.playLevelEvent(null, 1009, pos, 0)
-    }
-
     override fun getPropertyDelegate() = properties
 
     override fun createContainer(syncId: Int, playerInventory: PlayerInventory) =
-        IndustrialComposterMenu(syncId, playerInventory, displayName, BlockContext.create(world, pos))
+        IndustrialComposterMenu(syncId, playerInventory, displayName, blockContextOf(world, pos))
 
     override fun getInvSize(): Int = 2
 
