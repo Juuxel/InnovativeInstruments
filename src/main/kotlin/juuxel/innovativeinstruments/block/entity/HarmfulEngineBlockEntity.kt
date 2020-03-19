@@ -53,7 +53,7 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
             val target = pos.offset(cachedState[HarmfulEngineBlock.FACING])
             val targetBe = world!!.getBlockEntity(target)
             if (Energy.valid(targetBe)) {
-                val targetEnergy = Energy.of(target)
+                val targetEnergy = Energy.of(targetBe)
                 val inserted = targetEnergy.insert(1.0)
                 val selfEnergy = Energy.of(this)
                 selfEnergy.insert(1.0 - inserted)

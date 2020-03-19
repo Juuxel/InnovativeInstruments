@@ -62,9 +62,6 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
         val hasInput = !input.isEmpty
 
         if (energy <= 0.0) {
-            if (progress != 0) {
-                stopProcessing()
-            }
             return
         }
 

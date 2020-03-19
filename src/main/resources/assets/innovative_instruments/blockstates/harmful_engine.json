@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=up": { "model": "innovative_instruments:block/harmful_engine" },
+    "facing=down": { "model": "innovative_instruments:block/harmful_engine", "x": 180 },
+    "facing=north": { "model": "innovative_instruments:block/harmful_engine", "x": 90 },
+    "facing=east": { "model": "innovative_instruments:block/harmful_engine", "x": 90, "y": 90 },
+    "facing=south": { "model": "innovative_instruments:block/harmful_engine", "x": 90, "y": 180 },
+    "facing=west": { "model": "innovative_instruments:block/harmful_engine", "x": 90, "y": 270 }
+  }
+}

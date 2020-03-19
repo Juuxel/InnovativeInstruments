@@ -1,0 +1,10 @@
+{
+  "parent": "innovative_instruments:block/templates/engine",
+  "textures": {
+    "base_top": "innovative_instruments:block/harmful_engine_base_top",
+    "base_side": "innovative_instruments:block/harmful_engine_base_side",
+    "base_bottom": "innovative_instruments:block/harmful_engine_base_bottom",
+    "head_top": "innovative_instruments:block/engine_head_top",
+    "head_side": "innovative_instruments:block/engine_head_side"
+  }
+}

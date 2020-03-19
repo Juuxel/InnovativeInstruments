@@ -1,4 +1,5 @@
 {
+  "block.innovative_instruments.harmful_engine": "Harmful Engine",
   "block.innovative_instruments.industrial_composter": "Industrial Composter",
   "gui.innovative_instruments.energy": "%d / %d"
 }
