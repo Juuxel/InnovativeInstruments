@@ -86,6 +86,7 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
             } else {
                 progress++
                 energy -= 2.0
+                markDirty()
             }
         }
 
@@ -106,11 +107,13 @@ class IndustrialComposterBlockEntity : MachineBlockEntity(
     private fun startProcessing() {
         progress = 1
         world!!.setBlockState(pos, cachedState.with(IndustrialComposterBlock.WORKING, true))
+        markDirty()
     }
 
     private fun stopProcessing() {
         progress = 0
         world!!.setBlockState(pos, cachedState.with(IndustrialComposterBlock.WORKING, false))
+        markDirty()
     }
 
     override fun getPropertyDelegate() = properties

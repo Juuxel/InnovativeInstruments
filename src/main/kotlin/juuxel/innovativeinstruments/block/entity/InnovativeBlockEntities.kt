@@ -16,6 +16,12 @@ object InnovativeBlockEntities {
         InnovativeBlocks.INDUSTRIAL_COMPOSTER
     )
 
+    val HARMFUL_ENGINE: BlockEntityType<HarmfulEngineBlockEntity> = register(
+        "harmful_engine",
+        ::HarmfulEngineBlockEntity,
+        InnovativeBlocks.HARMFUL_ENGINE
+    )
+
     fun init() {
         // Set up energy
         Energy.registerHolder({ it is MachineBlockEntity }, { (it as MachineBlockEntity).energy })

@@ -14,6 +14,11 @@ object InnovativeBlocks {
         IndustrialComposterBlock(createMachineSettings())
     )
 
+    val HARMFUL_ENGINE: Block = register(
+        "harmful_engine",
+        HarmfulEngineBlock(createMachineSettings())
+    )
+
     fun init() {
     }
 
