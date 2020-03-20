@@ -1,7 +1,7 @@
 package juuxel.innovativeinstruments.block.entity
 
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder
-import juuxel.innovativeinstruments.block.HarmfulEngineBlock
+import juuxel.innovativeinstruments.block.EngineBlock
 import juuxel.innovativeinstruments.component.EnergyComponent
 import juuxel.innovativeinstruments.lib.InnovativeTags
 import juuxel.innovativeinstruments.lib.NbtKeys
@@ -50,7 +50,7 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
         if (progress > 0) {
             progress--
 
-            val target = pos.offset(cachedState[HarmfulEngineBlock.FACING])
+            val target = pos.offset(cachedState[EngineBlock.FACING])
             val targetBe = world!!.getBlockEntity(target)
             if (Energy.valid(targetBe)) {
                 val targetEnergy = Energy.of(targetBe)
@@ -60,7 +60,7 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
             }
 
             if (progress == 0) {
-                world!!.setBlockState(pos, cachedState.with(HarmfulEngineBlock.WORKING, false))
+                world!!.setBlockState(pos, cachedState.with(EngineBlock.WORKING, false))
             }
 
             markDirty()
@@ -71,7 +71,7 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
             if (!stack.isEmpty) {
                 stack.decrement(1)
                 progress = MAX_PROGRESS
-                world!!.setBlockState(pos, cachedState.with(HarmfulEngineBlock.WORKING, true))
+                world!!.setBlockState(pos, cachedState.with(EngineBlock.WORKING, true))
                 markDirty()
             }
         }
@@ -89,7 +89,7 @@ class HarmfulEngineBlockEntity : MachineBlockEntity(
         if (canInteractThrough(side)) slots else emptySlots
 
     private fun canInteractThrough(side: Direction?): Boolean =
-        side == cachedState[HarmfulEngineBlock.FACING].opposite
+        side == cachedState[EngineBlock.FACING].opposite
 
     override fun canExtractInvStack(slot: Int, stack: ItemStack, side: Direction?): Boolean =
         canInteractThrough(side)
